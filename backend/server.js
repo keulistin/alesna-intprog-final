@@ -12,7 +12,7 @@ app.use(cookieParser());
 
 // Enhanced CORS configuration to fix the CORS error
 app.use(cors({
-    origin: ['https://gorgonio-fullstack-app-fd723.web.app', 'http://localhost:5000'],
+    origin: ['https://alesna-intprog-final.web.app', 'http://localhost:5000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     credentials: true,

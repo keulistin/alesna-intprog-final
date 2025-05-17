@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     // apiUrl: 'http://localhost:4000', 
-    apiUrl: 'https://gorgonio-fullstack-app.onrender.com'
+    apiUrl: 'https://alesna-intprog-final.onrender.com'
 };
 
 /*

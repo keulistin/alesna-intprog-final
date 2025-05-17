@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://gorgonio-fullstack-app.onrender.com'
+    apiUrl: 'https://alesna-intprog-final.onrender.com'
 }

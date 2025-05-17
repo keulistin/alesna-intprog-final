@@ -16,5 +16,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GORGONIO_FULLSTACK_APP_FD723 }}
-          projectId: gorgonio-fullstack-app-fd723
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ALESNA_INTPROG_FINAL }}
+          projectId: alesna-intprog-final

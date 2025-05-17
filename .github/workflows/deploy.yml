@@ -30,6 +30,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GORGONIO_FULLSTACK_APP_FD723 }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ALESNA_INTPROG_FINAL }}"
           channelId: live
           projectId: gorgonio-fullstack-app-fd723
