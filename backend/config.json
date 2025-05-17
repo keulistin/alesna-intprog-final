@@ -1,8 +1,8 @@
 {
   "database": {
     "host": "153.92.15.31",
-    "database": "u875409848_gorgonio",
-    "user": "u875409848_gorgonio",
+    "database": "u875409848_alesna",
+    "user": "u875409848_alesna",
     "password": "9T2Z5$3UKkgSYzE",
     "dialect": "mysql"
   },
