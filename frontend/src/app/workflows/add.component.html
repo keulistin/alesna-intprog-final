@@ -1,0 +1,48 @@
+<h1>Create Workflow</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+                <label class="form-label">Workflow Type</label>
+                <select formControlName="type" class="form-select" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                    <option value="">Select Type</option>
+                    <option *ngFor="let type of workflowTypes" [value]="type">{{type}}</option>
+                </select>
+                <div class="form-text text-muted">Choose the type of workflow you want to create</div>
+                <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                    <div *ngIf="f.type.errors.required">Type is required</div>
+                </div>
+            </div>
+
+            <div formGroupName="details" class="bg-light p-4 rounded mb-4">
+                <h5 class="mb-3">Task Details</h5>
+                <div class="mb-4">
+                    <label class="form-label">Task Name</label>
+                    <input type="text" formControlName="task" class="form-control" 
+                           placeholder="Enter the task name"
+                           [ngClass]="{ 'is-invalid': submitted && form.get('details.task')?.errors }" />
+                    <div class="form-text text-muted">Provide a clear and concise task name</div>
+                    <div *ngIf="submitted && form.get('details.task')?.errors" class="invalid-feedback">
+                        <div *ngIf="form.get('details.task')?.errors?.required">Task name is required</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Additional Information</label>
+                    <textarea formControlName="additionalInfo" class="form-control" rows="4"
+                            placeholder="Enter any additional details about the task"></textarea>
+                    <div class="form-text text-muted">Optional: Add any relevant details or instructions</div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button routerLink="/workflows" [queryParams]="{ employeeId: employeeId }" class="btn btn-link">Cancel</button>
+                <button type="submit" class="btn btn-primary px-4" [disabled]="loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                    Create Workflow
+                </button>
+            </div>
+        </form>
+    </div>
+</div> 

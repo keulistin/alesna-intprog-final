@@ -1,0 +1,87 @@
+<div class="card">
+  <div class="card-header">{{ isAddMode ? 'Add' : 'Edit' }} Request</div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!-- Global form errors can be shown here via AlertService or a dedicated error display -->
+      <!-- <alert></alert> --> <!-- Your global alert component -->
+      <div *ngIf="submitted && requestItems.length === 0 && form.get('requestItems')?.hasError('required')"
+        class="alert alert-danger mt-2">
+        At least one item is required.
+      </div>
+
+
+      <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <select id="type" formControlName="type" class="form-select"
+          [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+          <option value="Equipment">Equipment</option>
+          <option value="Leave">Leave</option>
+          <option value="Resources">Resources</option>
+          <!-- Add more types as needed -->
+        </select>
+        <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+          <div *ngIf="f.type.errors.required">Type is required</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="employeeId" class="form-label">Employee</label>
+        <select id="employeeId" formControlName="employeeId" class="form-select"
+          [ngClass]="{ 'is-invalid': submitted && f.employeeId.errors }">
+          <option [ngValue]="null">-- Select Employee --</option>
+          <option *ngFor="let emp of employeesForDropdown" [ngValue]="emp.id">
+            {{ emp.employeeId }}
+          </option>
+        </select>
+        <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+          <div *ngIf="f.employeeId.errors.required">Employee is required</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Items</label>
+        <div formArrayName="requestItems">
+          <div *ngFor="let itemGroup of requestItems.controls; let i = index" [formGroupName]="i"
+            class="border p-3 mb-3 rounded">
+            <div class="row align-items-center">
+              <div class="col-md-5">
+                <label for="itemName-{{i}}" class="form-label small">Name</label>
+                <input type="text" id="itemName-{{i}}" formControlName="name" class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && itemGroup.get('name')?.errors }">
+                <div *ngIf="submitted && itemGroup.get('name')?.errors" class="invalid-feedback">
+                  <div *ngIf="itemGroup.get('name')?.errors?.required">Item name is required</div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label for="itemQuantity-{{i}}" class="form-label small">Quantity</label>
+                <input type="number" id="itemQuantity-{{i}}" formControlName="quantity"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && itemGroup.get('quantity')?.errors }">
+                <div *ngIf="submitted && itemGroup.get('quantity')?.errors" class="invalid-feedback">
+                  <div *ngIf="itemGroup.get('quantity')?.errors?.required">Quantity is required</div>
+                  <div *ngIf="itemGroup.get('quantity')?.errors?.min">Quantity must be at least 1</div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label small d-block">&nbsp;</label>
+                <button type="button" class="btn btn-danger btn-sm w-100" (click)="removeItem(i)" title="Remove Item">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm mt-2" (click)="addItem()">Add Item</button>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" [disabled]="loading" class="btn btn-primary me-2">
+          <span *ngIf="loading" class.bind="'spinner-border spinner-border-sm me-1'"></span>
+          {{ isAddMode ? 'Create' : 'Save Changes' }}
+        </button>
+        <button type="button" [disabled]="loading" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

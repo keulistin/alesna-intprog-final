@@ -1,0 +1,60 @@
+/* MODAL STYLES */
+app-modal {
+    /* modals are hidden by default */
+    display: none;
+}
+
+app-modal.modal-open {
+    display: block;
+}
+
+app-modal .modal {
+    /* modal container fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* z-index must be higher than .modal-backdrop */
+    z-index: 1050;
+    /* enables scrolling for tall modals */
+    overflow: auto;
+    display: block !important;
+}
+
+app-modal .modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 1.75rem auto;
+    max-width: 500px;
+    pointer-events: auto;
+}
+
+app-modal .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+app-modal .modal-backdrop {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* semi-transparent black */
+    background-color: #000;
+    opacity: 0.5;
+    /* z-index must be below .modal and above everything else */
+    z-index: 1040;
+}
+
+body.modal-open {
+    /* body overflow is hidden to hide main scrollbar when modal window is open */
+    overflow: hidden;
+} 

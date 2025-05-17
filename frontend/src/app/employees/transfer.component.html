@@ -1,0 +1,23 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Transfer Employee: {{employee?.employeeId}}</h5>
+            <button type="button" class="btn-close" (click)="cancel()"></button>
+        </div>
+
+        <div class="modal-body">
+            <div class="mb-3">
+                <label class="form-label">Department</label>
+                <select class="form-select" [(ngModel)]="departmentId">
+                    <option *ngFor="let dept of departments" [ngValue]="dept.id">{{dept.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-warning" (click)="onSubmit()">Transfer</button>
+            <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show"></div> 

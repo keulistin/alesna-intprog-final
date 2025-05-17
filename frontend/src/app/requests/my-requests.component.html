@@ -1,0 +1,50 @@
+<h1>My Requests</h1>
+
+<div class="card">
+    <div class="card-body">
+        <div *ngIf="loading" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+        </div>
+        <table *ngIf="!loading && requests" class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 15%">Request #</th>
+                    <th style="width: 15%">Type</th>
+                    <th style="width: 15%">Status</th>
+                    <th style="width: 40%">Created</th>
+                    <th style="width: 15%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let request of requests">
+                    <td>{{request.requestNumber}}</td>
+                    <td>{{request.type}}</td>
+                    <td>
+                        <span class="badge" [ngClass]="{
+                            'bg-secondary': request.status === 'Draft',
+                            'bg-primary': request.status === 'Submitted',
+                            'bg-info': request.status === 'In Progress',
+                            'bg-warning text-dark': request.status === 'Pending',
+                            'bg-success': request.status === 'Approved' || request.status === 'Approve',
+                            'bg-danger': request.status === 'Rejected' || request.status === 'Reject',
+                            'bg-dark': request.status === 'Completed'
+                        }">{{request.status}}</span>
+                    </td>
+                    <td>{{request.createdDate | date:'medium'}}</td>
+                    <td>
+                        <a routerLink="/requests/view/{{request.id}}" class="btn btn-sm btn-primary me-1">View</a>
+                        <button *ngIf="request.status === 'Draft'" (click)="deleteRequest(request.id)" class="btn btn-sm btn-danger btn-delete-request" [disabled]="request.isDeleting">
+                            <span *ngIf="request.isDeleting" class="spinner-border spinner-border-sm"></span>
+                            <span *ngIf="!request.isDeleting">Delete</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!loading && requests?.length === 0">
+                    <td colspan="5" class="text-center">
+                        <span class="text-muted">No requests found</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> 

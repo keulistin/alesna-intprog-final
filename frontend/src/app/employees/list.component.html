@@ -1,0 +1,54 @@
+<div class="card">
+    <div class="card-header">Employees</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Account</th>
+                        <th>Position</th>
+                        <th>Department</th>
+                        <th>Hire Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of employees">
+                        <td>{{employee.employeeId}}</td>
+                        <td>
+                            <span *ngIf="employee.User; else noUser">
+                                {{employee.User.email}} ({{employee.User.role === 'Admin' ? 'Admin User' : 'Normal User'}})
+                            </span>
+                            <ng-template #noUser>No Account</ng-template>
+                        </td>
+                        <td>{{employee.position}}</td>
+                        <td>{{employee.Department?.name || 'Unknown'}}</td>
+                        <td>{{employee.hireDate | date:'shortDate'}}</td>
+                        <td>
+                            <span class="badge"
+                                [ngClass]="{'bg-success': employee.status === 'Active', 'bg-danger': employee.status !== 'Active'}">
+                                {{employee.status}}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-info me-1 mr-2"
+                                (click)="viewRequests(employee.id)">Requests</button>
+                            <button class="btn btn-sm btn-info me-1 mr-2"
+                                (click)="viewWorkflows(employee.id)">Workflows</button>
+                            <button class="btn btn-sm btn-warning me-1 mr-2"
+                                (click)="openTransferModal(employee.id)">Transfer</button>
+                            <button class="btn btn-sm btn-primary me-1 mr-2" (click)="edit(employee.id)">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button *ngIf="account?.role === Role.Admin" class="btn btn-primary float-end" (click)="add()">Add
+            Employee</button>
+    </div>
+</div>
+
+<!-- Transfer Modal -->
+<app-transfer-modal #transferModal (transferComplete)="loadAllEmployees()"></app-transfer-modal>

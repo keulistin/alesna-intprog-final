@@ -1,0 +1,61 @@
+<h1>View Workflow</h1>
+
+<div *ngIf="loading" class="text-center">
+    <span class="spinner-border spinner-border-lg align-center"></span>
+</div>
+
+<div *ngIf="!loading && workflow" class="card">
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="text-muted mb-1">Type</label>
+                    <h5 class="mb-0">{{workflow.type}}</h5>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted mb-1">Status</label>
+                    <div>
+                        <span class="badge" [ngClass]="{
+                            'bg-info': workflow.status === 'ForReviewing',
+                            'bg-success': workflow.status === 'Completed'
+                        }">{{workflow.status}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="text-muted mb-1">Employee</label>
+                    <h5 class="mb-0" *ngIf="employee && employee.account">
+                        {{displayEmployeeId}} - {{capitalizeFirstLetter(employee.account.firstName)}} {{capitalizeFirstLetter(employee.account.lastName)}}
+                    </h5>
+                    <div *ngIf="!employee?.account" class="text-muted">
+                        No employee details available
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted mb-1">Created</label>
+                    <div>{{workflow.datetimecreated | date:'medium' || 'N/A'}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-light p-4 rounded mb-4">
+            <h5 class="mb-3">Details</h5>
+            <div>
+                <p class="mb-0">{{workflow.details}}</p>
+            </div>
+        </div>
+
+        <div class="border-top pt-3">
+            <a routerLink="/workflows" [queryParams]="{ employeeId: employeeId }" queryParamsHandling="merge" class="btn btn-link">Back to List</a>
+            <button *ngIf="isOwner" (click)="deleteWorkflow()" class="btn btn-danger me-2" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Delete Workflow
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!loading && !workflow" class="alert alert-danger">
+    Workflow not found.
+</div> 

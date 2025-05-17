@@ -1,0 +1,75 @@
+<div class="card">
+  <div class="card-header">
+    Requests
+    <ng-container *ngIf="employeeId && displayEmployeeId">
+      for Employee {{displayEmployeeId}}
+    </ng-container>
+  </div>
+  <div class="card-body">
+    <div *ngIf="loading" class="text-center p-3">
+      <span class="spinner-border spinner-border-sm me-1"></span>
+      Loading requests...
+    </div>
+    
+    <div *ngIf="!loading" class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Employee</th>
+            <th>Items</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of requests">
+            <td>{{request.type}}</td>
+            <td>
+              <span *ngIf="request.Employee?.User?.email">
+                {{request.Employee.User.email}} ({{request.Employee.User.role === 'Admin' ? 'Admin User' : 'Normal User'}})
+              </span>
+              <span *ngIf="!request.Employee?.User?.email && request.userEmail">
+                {{request.userEmail}} ({{request.userRole === 'Admin' ? 'Admin User' : 'Normal User'}})
+              </span>
+              <span *ngIf="!request.Employee?.User?.email && !request.userEmail">
+                Unknown
+              </span>
+            </td>
+            <td>
+              <ul class="list-unstyled mb-0" *ngIf="(request.items && request.items.length > 0) || (request.requestItems && request.requestItems.length > 0)">
+                <ng-container *ngIf="request.items && request.items.length > 0">
+                  <li *ngFor="let item of request.items">
+                    {{item.name}} (x{{item.quantity}})
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="!request.items && request.requestItems && request.requestItems.length > 0">
+                  <li *ngFor="let item of request.requestItems">
+                    {{item.name}} (x{{item.quantity}})
+                  </li>
+                </ng-container>
+              </ul>
+              <span *ngIf="(!request.items || request.items.length === 0) && (!request.requestItems || request.requestItems.length === 0)">No items</span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'bg-warning text-dark': request.status === 'Pending',
+                'bg-success': request.status === 'Approved' || request.status === 'Approve',
+                'bg-danger': request.status === 'Rejected' || request.status === 'Reject'
+              }">
+                {{request.status}}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary me-1" (click)="edit(request.id)">Edit</button>
+            </td>
+          </tr>
+          <tr *ngIf="requests.length === 0">
+            <td colspan="5" class="text-center">No requests found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button (click)="add()" class="btn btn-primary float-end">Add Request</button>
+  </div>
+</div>

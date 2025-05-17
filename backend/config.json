@@ -1,0 +1,19 @@
+{
+  "database": {
+    "host": "153.92.15.31",
+    "database": "u875409848_gorgonio",
+    "user": "u875409848_gorgonio",
+    "password": "9T2Z5$3UKkgSYzE",
+    "dialect": "mysql"
+  },
+  "secret": "E9g$2kL8#pXq5!RnW7vY4*zZb6@dF1jH3mPcQs",
+  "emailFrom": "admin@gmail.com",
+  "smtpOptions": {
+    "host": "smtp.ethereal.email",
+    "port": 587,
+    "auth": {
+      "user": "guadalupe23@ethereal.email",
+      "pass": "6UubvktEYTBeZNJpan"
+    }
+  }
+}

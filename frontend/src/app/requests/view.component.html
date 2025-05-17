@@ -1,0 +1,127 @@
+<div *ngIf="loading" class="text-center">
+    <span class="spinner-border spinner-border-lg align-center"></span>
+</div>
+
+<div *ngIf="!loading && request">
+    <div class="card">
+        <div class="card-header">
+            <h2>Request Details</h2>
+        </div>
+        <div class="card-body" *ngIf="request">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Request Number:</strong> {{request.requestNumber}}</p>
+                    <p><strong>Type:</strong> {{request.type}}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="badge" [ngClass]="{
+                            'bg-secondary': request.status === 'Pending',
+                            'bg-success': request.status === 'Approved',
+                            'bg-danger': request.status === 'Rejected',
+                        }">{{request.status}}</span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Employee:</strong> 
+                        <span *ngIf="request.employee">
+                            {{request.employee.account?.firstName}} {{request.employee.account?.lastName}}
+                        </span>
+                    </p>
+                    <p><strong>Created:</strong> {{request.createdDate | date:'medium'}}</p>
+                    <p><strong>Last Modified:</strong> {{request.lastModifiedDate | date:'medium' || 'N/A'}}</p>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <h4>Items</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of request.items">
+                            <td>{{item.name}}</td>
+                            <td>{{item.quantity}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="border-top pt-3">
+                <a routerLink="/requests" class="btn btn-link">Back to List</a>
+                <button *ngIf="isOwner && request.status === 'Pending'" routerLink="/requests/edit/{{request.id}}" class="btn btn-primary me-2">
+                    Edit Request
+                </button>
+                <button *ngIf="isOwner && request.status === 'Pending'" (click)="openDeleteModal(request)" class="btn btn-danger me-2" [disabled]="deleting">
+                    <span *ngIf="deleting" class="spinner-border spinner-border-sm me-1"></span>
+                    Delete Request
+                </button>
+            </div>
+        </div>
+        <div class="card-body" *ngIf="!request">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!loading && !request" class="alert alert-danger">
+    Request not found.
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete request <strong>#{{request?.requestNumber}}</strong>?</p>
+                <p class="mb-0 text-danger">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="deleteRequest()" [disabled]="deleting">
+                    <span *ngIf="deleting" class="spinner-border spinner-border-sm me-1"></span>
+                    Delete Request
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 20px;
+        width: 4px;
+        background: #e9ecef;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+    }
+    .timeline-badge {
+        position: absolute;
+        top: 0;
+        left: 12px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+    .timeline-panel {
+        position: relative;
+        margin-left: 50px;
+    }
+</style> 

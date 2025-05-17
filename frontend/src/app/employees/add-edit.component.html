@@ -1,0 +1,85 @@
+<div class="card">
+    <div class="card-header">{{id ? 'Edit' : 'Add'}} Employee</div>
+    <!--<div class="card-header">{{(id ? 'Edit' : 'Add')}} Employee</div>-->
+    <div class="card-body">
+        <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="mb-3">
+                <label class="form-label">Employee ID</label>
+                <input type="text" class="form-control" formControlName="employeeId" [readonly]="!isAddMode"
+                    [ngClass]="{ 'is-invalid': submitted && f.employeeId.errors }">
+                <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                    <div *ngIf="f.employeeId.errors.required">Employee ID is required</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">User</label>
+                <div *ngIf="users.length === 0" class="alert alert-warning">
+                    No users available. Please create users first.
+                </div>
+                <select class="form-select" formControlName="userId" [disabled]="users.length === 0"
+                    [ngClass]="{ 'is-invalid': submitted && f.userId.errors }">
+                    <option [ngValue]="null">-- Select User --</option>
+                    <option *ngFor="let user of users" [ngValue]="user.id">
+                        {{user.email || 'Unknown Email'}} ({{user.role === 'Admin' ? 'Admin User' : 'Normal User'}})
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.userId.errors" class="invalid-feedback">
+                    <div *ngIf="f.userId.errors.required">User is required</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Position</label>
+                <input type="text" class="form-control" formControlName="position"
+                    [ngClass]="{ 'is-invalid': submitted && f.position.errors }">
+                <div *ngIf="submitted && f.position.errors" class="invalid-feedback">
+                    <div *ngIf="f.position.errors.required">Position is required</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Department</label>
+                <select class="form-select" formControlName="departmentId"
+                    [ngClass]="{ 'is-invalid': submitted && f.departmentId.errors }">
+                    <option [ngValue]="null">-- Select Department --</option>
+                    <option *ngFor="let dept of departments" [ngValue]="dept.id">{{dept.name}}</option>
+                </select>
+                <div *ngIf="submitted && f.departmentId.errors" class="invalid-feedback">
+                    <div *ngIf="f.departmentId.errors.required">Department is required</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Hire Date</label>
+                <input type="date" class="form-control" formControlName="hireDate"
+                    [ngClass]="{ 'is-invalid': submitted && f.hireDate.errors }">
+                <div *ngIf="submitted && f.hireDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.hireDate.errors.required">Hire date is required</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-select" formControlName="status"
+                    [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+                <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                    <div *ngIf="f.status.errors.required">Status is required</div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary me-2" [disabled]="loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                    Save
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

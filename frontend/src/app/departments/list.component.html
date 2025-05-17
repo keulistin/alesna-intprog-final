@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header">Departments</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Employee Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dept of departments">
+                        <td>{{dept.name}}</td>
+                        <td>{{dept.description}}</td>
+                        <td>{{dept.employeeCount}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary me-1" [routerLink]="['edit', dept.id]">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button *ngIf="isAdmin" class="btn btn-primary float-end" routerLink="add">Add Department</button>
+    </div>
+</div>
