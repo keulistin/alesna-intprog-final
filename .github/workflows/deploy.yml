@@ -32,4 +32,4 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ALESNA_INTPROG_FINAL }}"
           channelId: live
-          projectId: gorgonio-fullstack-app-fd723
+          projectId: alesna-intprog-final
